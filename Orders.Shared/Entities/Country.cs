@@ -14,7 +14,7 @@ namespace Orders.Shared.Entities
 
         [Display(Name = "Pais")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres.")]
-        [Required (ErrorMessage = "El campo {0} es requerido.")]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         public string Name { get; set; } = null!;
     }
 }
