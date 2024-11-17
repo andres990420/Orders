@@ -6,7 +6,7 @@ using Orders.Shared.Entities;
 namespace Orders.Backend.Controllers
 {
     [ApiController]
-    [Route("api/{controller}")]
+    [Route("api/[controller]")]
     public class CountriesController : ControllerBase
     {
         private readonly DataContext _context;
