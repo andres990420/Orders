@@ -23,15 +23,15 @@ namespace Orders.Backend.Controllers
             return Ok( await _context.Countries.ToListAsync());
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetAsync(int Id)
         {
-            var country = await _context.Countries.FindAsync(id);
+            var country = await _context.Countries.FindAsync(Id);
             if (country == null) 
             {
                 return NotFound();
             }
-            return Ok(await _context.Countries.ToListAsync());
+            return Ok(country);
         }
 
         [HttpPost]
@@ -50,10 +50,10 @@ namespace Orders.Backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteAsync(int Id)
         {
-            var country = await _context.Countries.FindAsync(id);
+            var country = await _context.Countries.FindAsync(Id);
             if (country == null)
             {
                 return NotFound();

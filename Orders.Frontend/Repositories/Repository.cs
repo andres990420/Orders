@@ -6,34 +6,35 @@ namespace Orders.Frontend.Repositories
 {
     public class Repository : IRepository
     {
-        private readonly HttpClient _httpClien;
+        private readonly HttpClient _httpClient;
 
         private readonly JsonSerializerOptions _jsonDefaultOptions = new JsonSerializerOptions()
         {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true
         };
 
-        public Repository(HttpClient httpClien)
+        public Repository(HttpClient httpClient)
         {
-            _httpClien = httpClien;
+            _httpClient = httpClient;
         }
 
         public async Task<HttpResponseWrapper<T>> GetAsync<T>(string url)
         {
-            var responseHttp = await _httpClien.GetAsync(url);
+            var responseHttp = await _httpClient.GetAsync(url);
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnSerializeAnswerAsync<T>(responseHttp);
                 return new HttpResponseWrapper<T>(response, false, responseHttp);
             }
-            return new HttpResponseWrapper<T>(default, false, responseHttp);
+            return new HttpResponseWrapper<T>(default, true, responseHttp);
         }
 
         public async Task<HttpResponseWrapper<object>> PostAsync<T>(string url, T model)
         {
             var messangeJson = JsonSerializer.Serialize(model);
             var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
-            var responseHttp = await _httpClien.PostAsync(url, messangeContent);
+            var responseHttp = await _httpClient.PostAsync(url, messangeContent);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
@@ -41,7 +42,7 @@ namespace Orders.Frontend.Repositories
         {
             var messangeJson = JsonSerializer.Serialize(model);
             var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
-            var responseHttp = await _httpClien.PostAsync(url, messangeContent);
+            var responseHttp = await _httpClient.PostAsync(url, messangeContent);
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnSerializeAnswerAsync<TActionResponse>(responseHttp);
@@ -54,7 +55,7 @@ namespace Orders.Frontend.Repositories
         {
             var messangeJson = JsonSerializer.Serialize(model);
             var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
-            var responseHttp = await _httpClien.PutAsync(url, messangeContent);
+            var responseHttp = await _httpClient.PutAsync(url, messangeContent);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
@@ -62,7 +63,7 @@ namespace Orders.Frontend.Repositories
         {
             var messangeJson = JsonSerializer.Serialize(model);
             var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
-            var responseHttp = await _httpClien.PutAsync(url, messangeContent);
+            var responseHttp = await _httpClient.PutAsync(url, messangeContent);
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnSerializeAnswerAsync<TActionResponse>(responseHttp);
@@ -73,13 +74,14 @@ namespace Orders.Frontend.Repositories
 
         public async Task<HttpResponseWrapper<object>> DeleteAsync<T>(string url)
         {
-            var responseHttp = await _httpClien.DeleteAsync(url);
+            var responseHttp = await _httpClient.DeleteAsync(url);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
         private async Task<T> UnSerializeAnswerAsync<T>(HttpResponseMessage responseHttp)
         {
             var response = await responseHttp.Content.ReadAsStringAsync();
+            Console.WriteLine(response);
             return JsonSerializer.Deserialize<T>(response, _jsonDefaultOptions)!;
         }
     }
