@@ -66,7 +66,7 @@ namespace Orders.Frontend.Pages.Countries
         }
         private void Return()
         {
-            countryForm.FormPostedSuccessfully = true;
+            countryForm!.FormPostedSuccessfully = true;
             navigationManager.NavigateTo("/countries");
         }
     }

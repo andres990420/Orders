@@ -33,7 +33,7 @@ namespace Orders.Frontend.Repositories
         public async Task<HttpResponseWrapper<object>> PostAsync<T>(string url, T model)
         {
             var messangeJson = JsonSerializer.Serialize(model);
-            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
+            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "application/json");
             var responseHttp = await _httpClient.PostAsync(url, messangeContent);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
@@ -41,7 +41,7 @@ namespace Orders.Frontend.Repositories
         public async Task<HttpResponseWrapper<TActionResponse>> PostAsync<T, TActionResponse>(string url, T model)
         {
             var messangeJson = JsonSerializer.Serialize(model);
-            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
+            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "application/json");
             var responseHttp = await _httpClient.PostAsync(url, messangeContent);
             if (responseHttp.IsSuccessStatusCode)
             {
@@ -54,7 +54,7 @@ namespace Orders.Frontend.Repositories
         public async Task<HttpResponseWrapper<object>> PutAsync<T>(string url, T model)
         {
             var messangeJson = JsonSerializer.Serialize(model);
-            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
+            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "application/json");
             var responseHttp = await _httpClient.PutAsync(url, messangeContent);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
@@ -62,7 +62,7 @@ namespace Orders.Frontend.Repositories
         public async Task<HttpResponseWrapper<TActionResponse>> PutAsync<T, TActionResponse>(string url, T model)
         {
             var messangeJson = JsonSerializer.Serialize(model);
-            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "aplication/json");
+            var messangeContent = new StringContent(messangeJson, Encoding.UTF8, "application/json");
             var responseHttp = await _httpClient.PutAsync(url, messangeContent);
             if (responseHttp.IsSuccessStatusCode)
             {
