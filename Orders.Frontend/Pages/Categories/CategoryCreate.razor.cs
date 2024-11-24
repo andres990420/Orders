@@ -4,35 +4,35 @@ using Orders.Frontend.Repositories;
 using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.Countries
+namespace Orders.Frontend.Pages.Categories
 {
-    public partial class CountryCreate
+    public partial class CategoryCreate
     {
-        private Country country = new();
-        
-        private FormWithName<Country>? countryForm;
+        private Category category = new();
+
+        private FormWithName<Category>? categoryForm;
 
         [Inject]
-        private IRepository repository { get; set; } = null!;
+        private IRepository Repository { get; set; } = null!;
 
         [Inject]
-        private SweetAlertService sweetAlertService { get; set; } = null!;
+        private SweetAlertService SweetAlertService { get; set; } = null!;
 
         [Inject]
-        private NavigationManager navigationManager { get; set; } = null!;
+        private NavigationManager NavigationManager { get; set; } = null!;
 
-        private async Task CreateAsync() 
+        private async Task CreateAsync()
         {
-            var responseHttp = await repository.PostAsync("api/countries", country);
+            var responseHttp = await Repository.PostAsync("api/categories", category);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message);
+                await SweetAlertService.FireAsync("Error", message);
                 return;
             }
 
             Return();
-            var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
@@ -44,8 +44,8 @@ namespace Orders.Frontend.Pages.Countries
 
         private void Return()
         {
-            countryForm.FormPostedSuccessfully = true;
-            navigationManager.NavigateTo("/countries");
+            categoryForm.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/categories");
         }
     }
 }

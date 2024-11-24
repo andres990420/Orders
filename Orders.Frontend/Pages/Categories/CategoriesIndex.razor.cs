@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.Countries
+namespace Orders.Frontend.Pages.Categories
 {
-    public partial class CountriesIndex
+    public partial class CategoriesIndex
     {
         [Inject] private IRepository Repository { get; set; } = null!;
 
@@ -15,7 +15,7 @@ namespace Orders.Frontend.Pages.Countries
         [Inject]
         private NavigationManager NavigationManager { get; set; } = null!;
 
-        public List<Country>? Countries { get; set; }
+        public List<Category>? Categories { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -25,39 +25,39 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task LoadAsync()
         {
-            var responseHttp = await Repository.GetAsync<List<Country>>("api/countries");
+            var responseHttp = await Repository.GetAsync<List<Category>>("api/categories");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            Countries = responseHttp.Response;
+            Categories = responseHttp.Response;
         }
-        private async Task DeleteAsync(Country country)
+        private async Task DeleteAsync(Category category)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmacion",
-                Text = $"Esta seguro de quere borrar el pais : {country.Name}?",
+                Text = $"Esta seguro de quere borrar el pais : {category.Name}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
             });
             var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm) 
+            if (confirm)
             {
                 return;
             }
 
-            var responseHttp = await Repository.DeleteAsync<Country>($"api/countries/{country.Id}");
-            if (responseHttp.Error) 
+            var responseHttp = await Repository.DeleteAsync<Country>($"api/categories/{category.Id}");
+            if (responseHttp.Error)
             {
-                if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound) 
+                if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    NavigationManager.NavigateTo("/countries");
+                    NavigationManager.NavigateTo("/categories");
                 }
-                else 
-                { 
+                else
+                {
                     var mesajeError = await responseHttp.GetErrorMessageAsync();
                     await SweetAlertService.FireAsync("Error", mesajeError, SweetAlertIcon.Error);
                 }
@@ -65,15 +65,13 @@ namespace Orders.Frontend.Pages.Countries
             }
 
             await LoadAsync();
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions 
-            { 
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
                 ShowConfirmButton = true,
                 Timer = 3000
             });
         }
-
     }
-
 }

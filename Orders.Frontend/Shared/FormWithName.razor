@@ -1,0 +1,14 @@
+﻿@typeparam TModel where TModel : IEntityWithName
+
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInteralNavigation"></NavigationLock>
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>@Label:</label>
+        <InputText class="form-control" @bind-Value="@Model.Name" />
+        <ValidationMessage For="@(() => Model.Name)" />
+    </div>
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>

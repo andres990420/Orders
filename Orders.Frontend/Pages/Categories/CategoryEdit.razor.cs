@@ -4,59 +4,59 @@ using Orders.Frontend.Repositories;
 using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.Countries
+namespace Orders.Frontend.Pages.Categories
 {
-    public partial class CountryEdit
+    public partial class CategoryEdit
     {
-        private Country? country;
+        private Category? category;
 
-        private FormWithName<Country>? countryForm;
-
-        [Inject]
-        private IRepository repository { get; set; } = null!;
+        private FormWithName<Category>? categoryForm;
 
         [Inject]
-        private SweetAlertService sweetAlertService { get; set; } = null!;
+        private IRepository Repository { get; set; } = null!;
 
         [Inject]
-        private NavigationManager navigationManager { get; set; } = null!;
+        private SweetAlertService SweetAlertService { get; set; } = null!;
+
+        [Inject]
+        private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter, EditorRequired]
         public int Id { get; set; }
 
         protected async override Task OnParametersSetAsync()
         {
-            var responseHttp = await repository.GetAsync<Country>($"/api/countries/{Id}");
-            if (responseHttp.Error) 
+            var responseHttp = await Repository.GetAsync<Category>($"/api/categories/{Id}");
+            if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    navigationManager.NavigateTo("/countries");
+                    NavigationManager.NavigateTo("/categories");
                 }
-                else 
-                { 
+                else
+                {
                     var message = await responseHttp.GetErrorMessageAsync();
-                    await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                    await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 }
             }
-            else 
+            else
             {
-                country = responseHttp.Response;
+                category = responseHttp.Response;
             }
         }
 
         private async Task EditAsync()
         {
-            var responseHttp = await repository.PutAsync("/api/countries", country);
+            var responseHttp = await Repository.PutAsync("/api/categories", category);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message);
+                await SweetAlertService.FireAsync("Error", message);
                 return;
             }
 
             Return();
-            var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
@@ -67,8 +67,8 @@ namespace Orders.Frontend.Pages.Countries
         }
         private void Return()
         {
-            countryForm!.FormPostedSuccessfully = true;
-            navigationManager.NavigateTo("/countries");
+            categoryForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/categories");
         }
     }
 }
