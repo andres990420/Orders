@@ -5,7 +5,7 @@
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="mb-3">
-        <label>@Label:</label>
+        <label>@Label</label>
         <InputText class="form-control" @bind-Value="@Model.Name" />
         <ValidationMessage For="@(() => Model.Name)" />
     </div>
