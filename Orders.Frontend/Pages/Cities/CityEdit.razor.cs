@@ -4,13 +4,13 @@ using Orders.Frontend.Repositories;
 using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.States
+namespace Orders.Frontend.Pages.Cities
 {
-    public partial class StateEdit
+    public partial class CityEdit
     {
-        private State? state;
+        private City? city;
 
-        private FormWithName<State>? stateForm;
+        private FormWithName<City>? cityForm;
 
         [Inject]
         private IRepository repository { get; set; } = null!;
@@ -22,11 +22,11 @@ namespace Orders.Frontend.Pages.States
         private NavigationManager navigationManager { get; set; } = null!;
 
         [Parameter]
-        public int StateId { get; set; }
+        public int CityId { get; set; }
 
         protected async override Task OnParametersSetAsync()
         {
-            var responseHttp = await repository.GetAsync<State>($"/api/states/{StateId}");
+            var responseHttp = await repository.GetAsync<City>($"/api/cities/{CityId}");
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -37,12 +37,12 @@ namespace Orders.Frontend.Pages.States
                 await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            state = responseHttp.Response;
+            city = responseHttp.Response;
         }
 
         private async Task EditAsync()
         {
-            var responseHttp = await repository.PutAsync("/api/states", state);
+            var responseHttp = await repository.PutAsync("/api/cities", city);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -62,8 +62,8 @@ namespace Orders.Frontend.Pages.States
         }
         private void Return()
         {
-            stateForm!.FormPostedSuccessfully = true;
-            navigationManager.NavigateTo($"/countries/details/{state!.CountryId}");
+            cityForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo($"/states/details/{city!.StateId}");
         }
     }
 }
