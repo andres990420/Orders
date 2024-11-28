@@ -1,6 +1,7 @@
 ﻿using Orders.Backend.Repositories.Implementations;
 using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Reponses;
 
@@ -18,5 +19,9 @@ namespace Orders.Backend.UnitsOfWork.Implementations
         public override async Task<ActionResponse<State>> GetAsync(int id) => await _statesRepository.GetAsync(id);
 
         public override async Task<ActionResponse<IEnumerable<State>>> GetAsync() => await _statesRepository.GetAsync();
+
+        public override async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTOs pagination) => await _statesRepository.GetAsync(pagination);
+
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination) => await _statesRepository.GetTotalPagesAsync(pagination);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Orders.Shared.Reponses;
+﻿using Orders.Shared.DTOs;
+using Orders.Shared.Reponses;
 
 namespace Orders.Backend.Repositories.Interfaces
 {
@@ -7,7 +8,11 @@ namespace Orders.Backend.Repositories.Interfaces
         Task<ActionResponse<T>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
-        
+
+        Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTOs pagination);
+
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination);
+
         Task<ActionResponse<T>> AddAsync(T entity);
 
         Task<ActionResponse<T>> DeleteAsync(int id);
