@@ -13,14 +13,15 @@ else
     </div>
 
     <h4>Estados/Departamentos</h4>
-    <GenericList MyList="country.States!.ToList()">
+    <GenericList MyList="states!">
         <Body>
+            <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectPage="SelectedPageAsync" />
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Estado / Departamento</th>
-                        <th>Ciudades</th>
-                        <th></th>
+                        <th style ="width:90px">Ciudades</th>
+                        <th style="width:210px"></th>
                     </tr>
                 </thead>
                 <tbody>
