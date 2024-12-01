@@ -5,7 +5,7 @@ namespace Orders.Backend.Helpers
 {
     public static class QueryableExxtensions
     {
-        public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, PaginationDTOs pagination)
+        public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, PaginationDTO pagination)
         {
             return queryable
                 .Skip((pagination.Page - 1) * pagination.RecordsNumber)

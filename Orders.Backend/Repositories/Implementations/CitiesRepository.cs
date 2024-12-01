@@ -17,7 +17,7 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
-        public override async Task<ActionResponse<IEnumerable<City>>> GetAsync(PaginationDTOs pagination)
+        public override async Task<ActionResponse<IEnumerable<City>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.Cities
                 .Where(c => c.State!.Id == pagination.Id)
@@ -25,7 +25,7 @@ namespace Orders.Backend.Repositories.Implementations
 
             return new ActionResponse<IEnumerable<City>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = await queryable
                     .OrderBy(c => c.Name)
                     .Paginate(pagination)
@@ -33,7 +33,7 @@ namespace Orders.Backend.Repositories.Implementations
             };
         }
 
-        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination)
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.Cities
                 .Where(c => c.State!.Id == pagination.Id)
@@ -43,7 +43,7 @@ namespace Orders.Backend.Repositories.Implementations
             int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
             return new ActionResponse<int>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = totalPages
             };
         }

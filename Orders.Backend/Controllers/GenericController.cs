@@ -17,7 +17,7 @@ namespace Orders.Backend.Controllers
         public virtual async Task<IActionResult> GetAsync()
         {
             var action = await _unitOfWork.GetAsync();
-            if ( action.WasSucceess)
+            if ( action.WasSuccess)
             {
                 return Ok(action.Result);                
             }
@@ -25,10 +25,10 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTOs pagination)
+        public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
             var action = await _unitOfWork.GetAsync(pagination);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }
@@ -36,10 +36,10 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpGet("totalPages")]
-        public virtual async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTOs pagination) 
+        public virtual async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination) 
         {
             var action = await _unitOfWork.GetTotalPagesAsync(pagination);
-            if (action.WasSucceess) 
+            if (action.WasSuccess) 
             {
                 return Ok(action.Result);
             }
@@ -50,7 +50,7 @@ namespace Orders.Backend.Controllers
         public virtual async Task<IActionResult> GetAsync(int id)
         {
             var action = await _unitOfWork.GetAsync(id);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }
@@ -61,7 +61,7 @@ namespace Orders.Backend.Controllers
         public virtual async Task<IActionResult> PostAsync(T model)
         {
             var action = await _unitOfWork.AddAsync(model);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }
@@ -71,7 +71,7 @@ namespace Orders.Backend.Controllers
         public virtual async Task<IActionResult> PutAsync(T model)
         {
             var action = await _unitOfWork.UpdateAsync(model);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }
@@ -82,7 +82,7 @@ namespace Orders.Backend.Controllers
         public virtual async Task<IActionResult> DeleteAsync(int id)
         {
             var action = await _unitOfWork.DeleteAsync(id);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return NoContent();
             }

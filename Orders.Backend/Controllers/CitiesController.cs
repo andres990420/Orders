@@ -17,10 +17,10 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpGet]
-        public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTOs pagination)
+        public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
             var action = await _citiesUnitOfWork.GetAsync(pagination);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }
@@ -28,10 +28,10 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpGet("totalPages")]
-        public override async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTOs pagination)
+        public override async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
         {
             var action = await _citiesUnitOfWork.GetTotalPagesAsync(pagination);
-            if (action.WasSucceess)
+            if (action.WasSuccess)
             {
                 return Ok(action.Result);
             }

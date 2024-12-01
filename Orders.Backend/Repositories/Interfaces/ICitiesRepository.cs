@@ -6,8 +6,8 @@ namespace Orders.Backend.Repositories.Interfaces
 {
     public interface ICitiesRepository
     {
-        Task<ActionResponse<IEnumerable<City>>> GetAsync(PaginationDTOs pagination);
+        Task<ActionResponse<IEnumerable<City>>> GetAsync(PaginationDTO pagination);
 
-        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination);
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
     }
 }

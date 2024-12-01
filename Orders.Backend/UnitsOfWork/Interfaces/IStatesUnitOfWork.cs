@@ -10,8 +10,8 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 
         Task<ActionResponse<IEnumerable<State>>> GetAsync();
 
-        Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTOs pagination);
+        Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination);
 
-        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination);
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
     }
 }

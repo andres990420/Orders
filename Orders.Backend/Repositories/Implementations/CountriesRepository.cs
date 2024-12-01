@@ -24,18 +24,18 @@ namespace Orders.Backend.Repositories.Implementations
                 .ThenInclude(s => s.Cities)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (country == null) 
+            if (country == null)
             {
                 return new ActionResponse<Country>
                 {
-                    WasSucceess = false,
+                    WasSuccess = false,
                     Message = "Pais no existe"
                 };
             }
 
             return new ActionResponse<Country>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = country
             };
         }
@@ -47,25 +47,50 @@ namespace Orders.Backend.Repositories.Implementations
                 .ToListAsync();
             return new ActionResponse<IEnumerable<Country>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = countries
             };
         }
 
-        public override async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTOs pagination) 
+        public override async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.Countries
                 .Include(c => c.States!)
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+
             return new ActionResponse<IEnumerable<Country>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = await queryable
                     .OrderBy(c => c.Name)
                     .Paginate(pagination)
                     .ToListAsync()
             };
         }
+
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _context.Countries.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            double count = await queryable.CountAsync();
+            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
+            };
+        }
+
     }
 }

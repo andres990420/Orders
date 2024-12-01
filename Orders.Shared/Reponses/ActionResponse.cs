@@ -8,7 +8,7 @@ namespace Orders.Shared.Reponses
 {
     public class ActionResponse<T>
     {
-        public bool WasSucceess { get; set; }
+        public bool WasSuccess { get; set; }
 
         public string? Message { get; set; }
 

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Orders.Backend.Data;
 using Orders.Backend.Helpers;
-using Orders.Backend.Repositories.Implementations;
-using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Backend.Repositories.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Reponses;
 
-namespace Orders.Backend.UnitsOfWork.Implementations
+namespace Orders.Backend.Repositories.Implementations
 {
     public class StatesRepository : GenericRepository<State>, IStatesRepository
     {
@@ -28,14 +27,14 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             {
                 return new ActionResponse<State>
                 {
-                    WasSucceess = false,
+                    WasSuccess = false,
                     Message = "Estado no existe"
                 };
             }
 
             return new ActionResponse<State>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = state
             };
         }
@@ -48,12 +47,12 @@ namespace Orders.Backend.UnitsOfWork.Implementations
                 .ToListAsync();
             return new ActionResponse<IEnumerable<State>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = states
             };
         }
 
-        public override async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTOs pagination)
+        public override async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.States
                 .Include(c => c.Cities)
@@ -62,7 +61,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
 
             return new ActionResponse<IEnumerable<State>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = await queryable
                     .OrderBy(c => c.Name)
                     .Paginate(pagination)
@@ -70,7 +69,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             };
         }
 
-        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination)
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.States
                 .Where(c => c.Country!.Id == pagination.Id)
@@ -80,7 +79,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
             return new ActionResponse<int>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = totalPages
             };
         }

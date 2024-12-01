@@ -9,9 +9,9 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
 
-        Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTOs pagination);
+        Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination);
 
-        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination);
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
         Task<ActionResponse<T>> AddAsync(T entity);
 

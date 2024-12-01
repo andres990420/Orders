@@ -2,7 +2,7 @@
 using Orders.Shared.Entities;
 using Orders.Shared.Reponses;
 
-namespace Orders.Backend.UnitsOfWork.Interfaces
+namespace Orders.Backend.Repositories.Interfaces
 {
     public interface IStatesRepository
     {
@@ -10,8 +10,8 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 
         Task<ActionResponse<IEnumerable<State>>> GetAsync();
 
-        Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTOs pagination);
+        Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination);
 
-        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination);
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
     }
 }

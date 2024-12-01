@@ -28,7 +28,7 @@ namespace Orders.Backend.Repositories.Implementations
                 await _context.SaveChangesAsync();
                 return new ActionResponse<T>
                 {
-                    WasSucceess = true,
+                    WasSuccess = true,
                     Result = entity
                 };
             }
@@ -50,7 +50,7 @@ namespace Orders.Backend.Repositories.Implementations
             {
                 return new ActionResponse<T>
                 {
-                    WasSucceess = false,
+                    WasSuccess = false,
                     Message = "Registro no encontrado"
                 };
             }
@@ -61,14 +61,14 @@ namespace Orders.Backend.Repositories.Implementations
                 await _context.SaveChangesAsync();
                 return new ActionResponse<T>
                 {
-                    WasSucceess = true
+                    WasSuccess = true
                 };
             }
             catch
             {
                 return new ActionResponse<T>
                 {
-                    WasSucceess = false,
+                    WasSuccess = false,
                     Message = "No se puede borrar, porque tiene registros relacionados"
                 };
                 
@@ -82,13 +82,13 @@ namespace Orders.Backend.Repositories.Implementations
             {
                 return new ActionResponse<T>
                 {
-                    WasSucceess = false,
+                    WasSuccess = false,
                     Message = "Registro no encontrado"
                 };
             }
             return new ActionResponse<T>
             { 
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = row
             };
         }
@@ -97,31 +97,31 @@ namespace Orders.Backend.Repositories.Implementations
         {
             return new ActionResponse<IEnumerable<T>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = await _entity.ToListAsync()
             };
         }
 
-        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTOs pagination)
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _entity.AsQueryable();
             return new ActionResponse<IEnumerable<T>>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = await queryable
                 .Paginate(pagination)
                 .ToListAsync()
             };
         }
 
-        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTOs pagination)
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _entity.AsQueryable();
             double count = await queryable .CountAsync();
             int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
             return new ActionResponse<int>
             {
-                WasSucceess = true,
+                WasSuccess = true,
                 Result = totalPages
             };
         }
@@ -134,7 +134,7 @@ namespace Orders.Backend.Repositories.Implementations
                 await _context.SaveChangesAsync();
                 return new ActionResponse<T>
                 {
-                    WasSucceess = true,
+                    WasSuccess = true,
                     Result = entity
                 };
             }
@@ -152,7 +152,7 @@ namespace Orders.Backend.Repositories.Implementations
         {
             return new ActionResponse<T>
             {
-                WasSucceess = false,
+                WasSuccess = false,
                 Message = "Ya existe el registro que estas intetando crear."
             };
         }
@@ -160,7 +160,7 @@ namespace Orders.Backend.Repositories.Implementations
         {
             return new ActionResponse<T>
             {
-                WasSucceess = false,
+                WasSuccess = false,
                 Message = exception.Message
             };
         }
