@@ -17,7 +17,7 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination)
+        public override async Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.Categories.AsQueryable();
             
@@ -36,7 +36,7 @@ namespace Orders.Backend.Repositories.Implementations
             };
         }
 
-        public async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.Categories.AsQueryable();
 

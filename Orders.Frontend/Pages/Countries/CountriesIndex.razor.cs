@@ -43,6 +43,7 @@ namespace Orders.Frontend.Pages.Countries
             {
                 page = Convert.ToInt32(Page);
             }
+            
             var ok = await LoadListAsync(page);
             if (ok) 
             {

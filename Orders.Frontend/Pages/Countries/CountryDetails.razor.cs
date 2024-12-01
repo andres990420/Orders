@@ -38,17 +38,17 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task SelectedPageAsync(int page)
         {
+            if (!string.IsNullOrWhiteSpace(Page))
+            {
+                page = Convert.ToInt32(Page);
+            }
+
             currentPage = page;
             await LoadAsync(page);
         }
 
         private async Task LoadAsync(int page = 1)
         {
-            if (!string.IsNullOrWhiteSpace(Page))
-            {
-                page = Convert.ToInt32(Page);
-            }
-
             var ok = await LoadCountryAsync();
             if (ok)
             {
