@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Orders.Backend.Data;
 using Orders.Backend.Repositories.Implementations;
 using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitsOfWork.Implementations;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.Entities;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +49,18 @@ builder.Services.AddIdentity<User, IdentityRole>(x =>
 })
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
+{
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwtKey"]!)),
+        ClockSkew = TimeSpan.Zero
+});
+
 
 var app = builder.Build();
 SeedData(app);
