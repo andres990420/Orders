@@ -1,14 +1,19 @@
-﻿using Orders.Shared.Entities;
+﻿using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Shared.Entities;
+using Orders.Shared.Enums;
+using System.Runtime.CompilerServices;
 
 namespace Orders.Backend.Data
 {
     public class SeedDB
     {
         private readonly DataContext _context;
+        private readonly IUsersUnitOfWork _usersUnitOfWork;
 
-        public SeedDB(DataContext context)
+        public SeedDB(DataContext context, IUsersUnitOfWork usersUnitOfWork)
         {
             _context = context;
+            _usersUnitOfWork = usersUnitOfWork;
         }
 
         public async Task SeedAsync()
@@ -16,6 +21,40 @@ namespace Orders.Backend.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckCuntriesAsync();
             await CheckCategoriesAsync();
+            await CheckRolesAsync();
+            await CheckUserAsync("1010", "Andres", "Figueroa", "afi@yemail.com", "203 313 4560", "Caller luna", UserType.Admin);
+        }
+
+        private async Task<User> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address
+            , UserType userType)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(email);
+            if (user is null) 
+            {
+                user = new User
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    UserName = email,
+                    PhoneNumber = phone,
+                    Address = address,
+                    Document = document,
+                    City = _context.Cities.FirstOrDefault(),
+                    userType = userType,
+                };
+
+                await _usersUnitOfWork.AddUserAsync(user, "1223456");
+                await _usersUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
+            }
+
+            return user;
+        }
+
+        private async Task CheckRolesAsync()
+        {
+            await _usersUnitOfWork.CheckRoleAsync(UserType.Admin.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.User.ToString());
         }
 
         private async Task CheckCategoriesAsync()
