@@ -8,7 +8,7 @@ using Orders.Shared.Reponses;
 
 namespace Orders.Backend.Repositories.Implementations
 {
-    public class CategoriesRepository : GenericRepository<Category> ,ICategoriesRepository
+    public class CategoriesRepository : GenericRepository<Category>, ICategoriesRepository
     {
         private readonly DataContext _context;
 
@@ -34,6 +34,13 @@ namespace Orders.Backend.Repositories.Implementations
                     .Paginate(pagination)
                     .ToListAsync()
             };
+        }
+
+        public async Task<IEnumerable<Category>> GetComboAsync()
+        {
+            return await _context.Categories
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
 
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)

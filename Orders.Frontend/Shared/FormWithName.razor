@@ -9,6 +9,6 @@
         <InputText class="form-control" @bind-Value="@Model.Name" />
         <ValidationMessage For="@(() => Model.Name)" />
     </div>
-    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+    <button class="btn btn-primary" type="submit"><i class="bi bi-floppy"/>Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction"><i class="bi bi-arrow-left" />Regresar</button>
 </EditForm>

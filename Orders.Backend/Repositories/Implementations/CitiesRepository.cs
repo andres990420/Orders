@@ -33,6 +33,14 @@ namespace Orders.Backend.Repositories.Implementations
             };
         }
 
+        public async Task<IEnumerable<City>> GetComboAsync(int stateId)
+        {
+            return await _context.Cities
+                .Where(s => s.StateId == stateId)
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.Cities

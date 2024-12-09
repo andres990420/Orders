@@ -44,7 +44,7 @@ namespace Orders.Backend.Data
                     userType = userType,
                 };
 
-                await _usersUnitOfWork.AddUserAsync(user, "1223456");
+                await _usersUnitOfWork.AddUserAsync(user, "123456");
                 await _usersUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
             }
 

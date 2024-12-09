@@ -1,0 +1,37 @@
+﻿@page "/Login"
+
+<div class="row mt-5">
+    <div class="col-md-4 offset-md-4">
+        <EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+            <DataAnnotationsValidator />
+
+            <div class="card bg-light">
+                <div class="card-header justify-content-center">
+                    <span>
+                        <i class="oi oi-account-login"/> Iniciar Sesion
+                        <button class="btn btn-sm btn-primary float-end" type="submit"><i class="bi bi-box-arrow-in-right"/>Iniciar sesion</button>
+                    </span>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>Email:</label>
+                            <div>
+                                <InputText class="form-control" @bind-Value="@loginDTO.Email" />
+                                <ValidationMessage For="@(() => loginDTO.Email)" />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Contraseña:</label>
+                            <div>
+                                <InputText type="password" class="form-control" @bind-Value="@loginDTO.Password" />
+                                <ValidationMessage For="@(() => loginDTO.Password)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+

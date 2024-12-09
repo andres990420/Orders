@@ -7,7 +7,7 @@ using Orders.Shared.Reponses;
 
 namespace Orders.Backend.UnitsOfWork.Implementations
 {
-    public class StatesUnitOfWork : GenericUnitOfWork<State> ,IStatesUnitOfWork
+    public class StatesUnitOfWork : GenericUnitOfWork<State>, IStatesUnitOfWork
     {
         private readonly IStatesRepository _statesRepository;
 
@@ -21,6 +21,8 @@ namespace Orders.Backend.UnitsOfWork.Implementations
         public override async Task<ActionResponse<IEnumerable<State>>> GetAsync() => await _statesRepository.GetAsync();
 
         public override async Task<ActionResponse<IEnumerable<State>>> GetAsync(PaginationDTO pagination) => await _statesRepository.GetAsync(pagination);
+
+        public async Task<IEnumerable<State>> GetComboAsync(int countryId) => await _statesRepository.GetComboAsync(countryId);
 
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _statesRepository.GetTotalPagesAsync(pagination);
     }

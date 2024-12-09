@@ -19,6 +19,13 @@ namespace Orders.Backend.Controllers
             _countriesUnitOfWork = countriesUnitOfWork;
         }
 
+        [HttpGet("combo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetComboAsync() 
+        {
+            return Ok(await _countriesUnitOfWork.GetComboAsync());
+        }
+        
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
         {
